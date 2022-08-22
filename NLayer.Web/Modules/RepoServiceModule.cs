@@ -44,7 +44,7 @@ namespace NLayer.Web.Modules
                .Where(x => x.Name.EndsWith("Service"))
                .AsImplementedInterfaces()
                .InstancePerLifetimeScope();
-            
+
             base.Load(builder);
         }
     }

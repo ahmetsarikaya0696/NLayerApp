@@ -44,7 +44,7 @@ namespace NLayer.Service.Services
         public async Task<T> GetByIdAsync(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            
+
             if (entity == null) throw new NotFoundException($"{typeof(T).Name}({id}) not found!");
 
             return entity;
