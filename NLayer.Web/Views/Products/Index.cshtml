@@ -1,7 +1,32 @@
-﻿
+﻿@model List<ProductWithCategoryDto>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Created Date</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <th scope="row">@product.Id</th>
+                <td>@product.Name</td>
+                <td>@product.CreatedDate</td>
+                <td>@product.Category.Name</td>
+                <td>@product.Stock</td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
