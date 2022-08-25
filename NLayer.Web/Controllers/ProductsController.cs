@@ -5,6 +5,7 @@ using NLayer.Core.Dtos;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
+using NLayer.Web.Filters;
 
 namespace NLayer.Web.Controllers
 {
@@ -48,11 +49,40 @@ namespace NLayer.Web.Controllers
             FillDropdownWithCategories();
             return View();
         }
-        private void FillDropdownWithCategories()
+
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
+        public async Task<IActionResult> Update(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+            FillDropdownWithCategories(product.CategoryId);
+            return View(_mapper.Map<ProductDto>(product));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ProductDto productDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _productService.UpdateAsync(_mapper.Map<Product>(productDto));
+                return RedirectToAction(nameof(Index));
+            }
+
+            FillDropdownWithCategories(productDto.CategoryId);
+            return View(productDto);
+        }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+            await _productService.RemoveAsync(product);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private void FillDropdownWithCategories(int categoryId = 0)
         {
             var categories = _categoryService.GetAll().ToList();
             var categoriesDto = _mapper.Map<List<CategoryDto>>(categories);
-            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name");
+            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name", categoryId);
         }
     }
 }
