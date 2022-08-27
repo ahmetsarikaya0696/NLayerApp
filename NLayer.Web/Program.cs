@@ -7,6 +7,7 @@ using NLayer.Service.Mapping;
 using NLayer.Service.Validations;
 using NLayer.Web.Filters;
 using NLayer.Web.Modules;
+using NLayer.Web.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,10 @@ builder.Services.AddDbContext<AppDbContext>(
     x => x.UseSqlServer(
         ConnectionString,
         options => options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name)));
+
+// HttpClient
+builder.Services.AddHttpClient<ProductApiService>(x => x.BaseAddress = new Uri(builder.Configuration["BaseUrl"]));
+builder.Services.AddHttpClient<CategoryApiService>(x => x.BaseAddress = new Uri(builder.Configuration["BaseUrl"]));
 
 // MVC NotFoundFilter
 builder.Services.AddScoped(typeof(NotFoundFilter<>));

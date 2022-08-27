@@ -1,6 +1,6 @@
 ﻿@model List<ProductWithCategoryDto>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products";
 }
 
 <h1>Index</h1>
@@ -35,3 +35,5 @@
         }
     </tbody>
 </table>
+
+<a asp-controller="Products" asp-action="Create">Add New Product</a>

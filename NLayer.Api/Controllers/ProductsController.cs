@@ -22,7 +22,7 @@ namespace NLayer.Api.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetProductsWithCategory()
         {
-            return CreateActionResult(await _service.GetProductWithCategory());
+            return CreateActionResult(await _service.GetProductsWithCategoryAsync());
         }
 
         [HttpGet]
@@ -33,6 +33,7 @@ namespace NLayer.Api.Controllers
             //return Ok(CustomResponseDto<List<ProductDto>>.Success(200, productsDto));
             return CreateActionResult(CustomResponseDto<List<ProductDto>>.Success(200, productsDto));
         }
+
         [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
